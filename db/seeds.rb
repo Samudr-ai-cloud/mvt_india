@@ -21,6 +21,7 @@ require 'csv'  # Load the CSV library
 
 file_path = "lib/assets/mvtf_data_sheet.csv"
 csv_data = CSV.read(file_path, headers: false)
+data = []
 csv_data.each_with_index do |row, index|
   next if index == 0 || row[0].nil?
 
@@ -32,8 +33,11 @@ csv_data.each_with_index do |row, index|
   mobile_number = row[2]&.strip
   description = row[4]&.strip
 
-
-  company =  Company.find_or_create_by(name: name)
-  company_detail = CompanyDetail.find_or_create_by(company_id: company.id)
-  company_detail.update!(company_id: company.id, description: description, website: website, mobile_number: mobile_number)
+  data << {company_name: name, description: description, website: website, mobile_number: mobile_number}
+  # company =  Company.find_or_create_by(name: name)
+  # company_detail = CompanyDetail.find_or_create_by(company_id: company.id)
+  # company_detail.update!(company_id: company.id, description: description, website: website, mobile_number: mobile_number)
 end
+
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

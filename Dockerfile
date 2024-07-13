@@ -12,7 +12,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 ENV BUNDLE_PATH=/gems
 
 # Set the working directory in the container
-WORKDIR /myapp
+WORKDIR /usr/src/app
 
 # Copy the Gemfile and Gemfile.lock into the image
 COPY Gemfile Gemfile.lock ./
@@ -23,6 +23,8 @@ RUN gem install bundler:2.4.10 && bundle install --verbose
 # Install Rails
 RUN gem install rails -v '7.1.3.4'
 
+RUN bundle install
+ADD . /usr/src/app/
 # Copy the main application code
 COPY . .
 
@@ -34,6 +36,7 @@ COPY . .
 
 # Add a script to be executed every time the container starts
 COPY entrypoint.sh /usr/bin/
+RUN bundle exec rake db:create db:migrate
 RUN chmod +x /usr/bin/entrypoint.sh
 
 # Remove a potentially pre-existing server.pid for Rails.
@@ -46,4 +49,5 @@ EXPOSE 3000
 ENTRYPOINT ["entrypoint.sh"]
 
 # Start the main process
-CMD ["rails", "server", "-b", "0.0.0.0"]
+#CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD rails s -b 0.0.0.0

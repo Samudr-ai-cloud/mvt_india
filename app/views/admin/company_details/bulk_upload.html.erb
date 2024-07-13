@@ -1,0 +1,12 @@
+<%= form_tag create_bulk_company_details_admin_company_details_path, multipart: true do %>
+  <div>
+    "Upload file in csv format only, check sample file"<br>
+    <%= link_to 'Sample file', :sample_file_to_create_entry_admin_company_details %>
+  </div>
+
+  <%= file_field_tag 'file', accept: 'text/csv' %>
+  <br>
+  <br>
+  <br>
+  <%= submit_tag 'Upload' %>
+<% end %>
