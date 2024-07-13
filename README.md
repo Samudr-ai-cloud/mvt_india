@@ -1,5 +1,12 @@
 # README
+//deployment updates
+css--> update the padding-left: 0 !important
 
+config--> config.hosts<<"mvt.samudr.cloud" 
+config routes--> 
+# root "posts#index"-> root "application#home"
+RAILS_ENV=production rails server -p 6969
+//
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
